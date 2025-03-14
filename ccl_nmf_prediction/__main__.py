@@ -1,12 +1,13 @@
 import argparse
+import numpy
 import pandas as pd
-from sklearn.metrics import mean_squared_error, r2_score
+# from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.linear_model import LinearRegression
 # from sklearn.model_selection import StratifiedKFold
 import pickle # for model loading
 import warnings
 
-from .utils import get_data, predict_ccl_nmf
+from .utils import consolidate_data, predict_ccl_nmf
 
 warnings.simplefilter(action="ignore", category=FutureWarning)
 warnings.simplefilter(action="ignore", category=UserWarning)
@@ -26,15 +27,15 @@ def main() -> None:
         Prediction of 7 ccl_nmf components.
 
         Required arguments:
-            [-i, --in_file]   The filepath of an input CSV containing MUSE ROI Volumes + ICV Volume.
-            [-c, --covars]    The filepath of an input CSV containing ID (str), Age (float), and Sex (str: "M" or "F") covariate information
+            [-i, --in_file]   The filepath of an input CSV containing DLMUSE ROI Volumes (including 702 ICV Volume)
+            [-d, --demog]    The filepath of an input CSV containing ID (str), Age (float), and Sex (str: "M" or "F") covariate information
             [-o, --out_file]  The filepath of an output CSV file containing the predicted CCL_NMF components.
         Optional arguments:
             [-h, --help]    Show this help message and exit.
             [-V, --version] Show program's version number and exit.
         EXAMPLE USAGE:
-            ccl_mnf_prediction  -i           /path/to/input_muse_roi_volumes.csv \
-                                -c           /path/to/input_covar.csv            \
+            ccl_mnf_prediction  -i           /path/to/input_dlmuse_roi_volumes.csv \
+                                -d           /path/to/input_demog.csv            \
                                 -o           /path/to/output.csv
 
         """.format(
@@ -51,8 +52,8 @@ def main() -> None:
         help="[REQUIRED] Input folder with T1 sMRI images (csv).",
     )
     parser.add_argument(
-        "-c",
-        "--covars",
+        "-d",
+        "--demog",
         type=str,
         required=True,
         help="[REQUIRED] Input folder with T1 sMRI images (csv).",
@@ -65,10 +66,12 @@ def main() -> None:
         help="[REQUIRED] Output CSV path.",
     )
 
+    args = parser.parse_args()
+    if not args.i or not args.d:
+        parser.error("The following arguments are required: -i, -d")
 
-
-    with open('model/ccl_nmf_pred_linear.pkl','rb') as model_file:
-        model = pickle.load(model_file)
+    df = consolidate_data(args.i,args.d)
+    predict_ccl_nmf(df, args.o)
 
 if __name__ == "__main__":
     main()
