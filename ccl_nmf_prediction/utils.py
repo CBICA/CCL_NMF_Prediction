@@ -7,7 +7,7 @@ from sklearn.linear_model import LinearRegression
 import pickle # for model loading
 import warnings
 
-from .utils import get_data, predict_ccl_nmf
+#from .utils import get_data, predict_ccl_nmf
 
 warnings.simplefilter(action="ignore", category=FutureWarning)
 warnings.simplefilter(action="ignore", category=UserWarning)
