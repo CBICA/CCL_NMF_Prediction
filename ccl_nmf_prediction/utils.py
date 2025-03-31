@@ -6,6 +6,7 @@ from sklearn.linear_model import LinearRegression
 # from sklearn.model_selection import StratifiedKFold
 import pickle # for model loading
 import warnings
+from pathlib import Path
 
 #from .utils import get_data, predict_ccl_nmf
 
@@ -44,7 +45,8 @@ def predict_ccl_nmf(consolidated_df, out_csv_path):
     all_result['MRID'] = consolidated_df.MRID
     for ccl_nmf in ccl_nmf_components:
         print(f'Processing {ccl_nmf}')
-        with open(f"../models/model_{ccl_nmf}.pkl", 'rb') as f:
+        path_to_model = Path(__file__).parent / "models" / f"model_{ccl_nmf}.pkl"
+        with open(path_to_model.resolve(), 'rb') as f:
             model = pickle.load(f)
         all_result[ccl_nmf] = model.predict(X)[0]
     all_result.to_csv(out_csv_path,index=False)
