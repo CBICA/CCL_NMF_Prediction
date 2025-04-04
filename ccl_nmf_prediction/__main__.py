@@ -68,11 +68,9 @@ def main() -> None:
 
     args = parser.parse_args()
     if not args.in_dir or not args.demog:
-        parser.error("The following arguments are required: -i / --in_dir, -d / --demog")
-
+        parser.error("The following arguments are required: -i / --in_dir, -d / --demog, -o / --out_dir")
     df = consolidate_data(args.in_dir,args.demog)
     predict_ccl_nmf(df, args.out_dir)
 
 if __name__ == "__main__":
     main()
-    
