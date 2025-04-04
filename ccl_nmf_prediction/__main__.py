@@ -27,9 +27,9 @@ def main() -> None:
         Prediction of 7 ccl_nmf components.
 
         Required arguments:
-            [-i, --in_file]   The filepath of an input CSV containing DLMUSE ROI Volumes (including 702 ICV Volume)
+            [-i, --in_dir]   The filepath of an input CSV containing DLMUSE ROI Volumes (including 702 ICV Volume)
             [-d, --demog]    The filepath of an input CSV containing ID (str), Age (float), and Sex (str: "M" or "F") covariate information
-            [-o, --out_file]  The filepath of an output CSV file containing the predicted CCL_NMF components.
+            [-o, --out_dir]  The filepath of an output CSV file containing the predicted CCL_NMF components.
         Optional arguments:
             [-h, --help]    Show this help message and exit.
             [-V, --version] Show program's version number and exit.
@@ -67,11 +67,11 @@ def main() -> None:
     )
 
     args = parser.parse_args()
-    if not args.i or not args.d:
-        parser.error("The following arguments are required: -i, -d")
+    if not args.in_dir or not args.demog:
+        parser.error("The following arguments are required: -i / --in_dir, -d / --demog")
 
-    df = consolidate_data(args.i,args.d)
-    predict_ccl_nmf(df, args.o)
+    df = consolidate_data(args.in_dir,args.demog)
+    predict_ccl_nmf(df, args.out_dir)
 
 if __name__ == "__main__":
     main()
