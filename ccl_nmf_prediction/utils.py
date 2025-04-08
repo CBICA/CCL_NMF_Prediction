@@ -29,8 +29,10 @@ def consolidate_data(dlmuse_csv_path, demog_csv_path):
     df_dlmuse = df_dlmuse[['MRID']+list_roi]
 
     df_demographics = pd.read_csv(demog_csv_path)
-    if 'M' in df_demographics.Sex or 'F' in df_demographics.Sex:
-        df_demographics.Sex = df_demographics.Sex.apply(lambda x: 1 if x=='M' else 0)
+
+    if 'M' in df_demographics['Sex'].values or 'F' in df_demographics['Sex'].values:
+        print("Detected M/F values in Sex column, transforming to binary class labels.")
+        df_demographics['Sex'] = df_demographics['Sex'].apply(lambda x: 1 if x=='M' else 0)
     
     return df_dlmuse.merge(df_demographics,on='MRID',how='inner').merge(df_dlicv_baseline,on='MRID',how='inner').rename(columns={'702':'dlicv_baseline'})
 
@@ -40,6 +42,7 @@ def consolidate_data(dlmuse_csv_path, demog_csv_path):
 
 def predict_ccl_nmf(consolidated_df, out_csv_path):
     X = consolidated_df.drop('MRID',axis=1).to_numpy()
+    print("DEBUG: consolidated df:", X)
     ccl_nmf_components = [f"CCL_NMF{i}" for i in range(1, 8)]
     all_result = pd.DataFrame()
     all_result['MRID'] = consolidated_df.MRID
@@ -48,5 +51,8 @@ def predict_ccl_nmf(consolidated_df, out_csv_path):
         path_to_model = Path(__file__).parent.parent / "models" / f"model_{ccl_nmf}.pkl"
         with open(path_to_model.resolve(), 'rb') as f:
             model = pickle.load(f)
-        all_result[ccl_nmf] = model.predict(X)[0]
+        model_result = model.predict(X)
+        print("DEBUG: Model result:")
+        print(model_result)
+        all_result[ccl_nmf] = model_result
     all_result.to_csv(out_csv_path,index=False)
