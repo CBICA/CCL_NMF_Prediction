@@ -43,7 +43,7 @@ def consolidate_data(dlmuse_csv_path, demog_csv_path):
 def predict_ccl_nmf(consolidated_df, out_csv_path):
     X = consolidated_df.drop('MRID',axis=1).to_numpy()
     print("DEBUG: consolidated df:", X)
-    ccl_nmf_components = [f"CCL_NMF{i}" for i in range(1, 8)]
+    ccl_nmf_components = [f"CCL-NMF{i}" for i in range(1, 8)]
     all_result = pd.DataFrame()
     all_result['MRID'] = consolidated_df.MRID
     for ccl_nmf in ccl_nmf_components:
