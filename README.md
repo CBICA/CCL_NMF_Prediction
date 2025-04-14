@@ -9,11 +9,11 @@ It is strongly recommended to install the application in a new virtual environme
 Please see the respective pages to learn how to set up a virtual environment for python 3.10 on your system and activate it.
 
 When your desired environment is active:
-`
+```
 git clone https://github.com/CBICA/CCL_NMF_Prediction.git
 cd CCL_NMF_Prediction
 pip install -e .
-`
+```
 
 ## Usage
 CCL_NMF_Prediction requires 3 arguments:
@@ -23,6 +23,6 @@ CCL_NMF_Prediction requires 3 arguments:
 - -o : The path to the output CSV file containing CCL-NMF component predictions. Must be writable.
 
 An example command is:
-`
+```
 CCL_NMF_Prediction -i /path/to/input.csv -d /path/to/demographics.csv -o /path/to/output.csv
-`
+```
