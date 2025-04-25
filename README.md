@@ -26,3 +26,6 @@ An example command is:
 ```
 ccl_nmf_prediction -i /path/to/input.csv -d /path/to/demographics.csv -o /path/to/output.csv
 ```
+
+## Testing
+Please see **test** for testing and replication
