@@ -24,5 +24,5 @@ CCL_NMF_Prediction requires 3 arguments:
 
 An example command is:
 ```
-CCL_NMF_Prediction -i /path/to/input.csv -d /path/to/demographics.csv -o /path/to/output.csv
+ccl_nmf_prediction -i /path/to/input.csv -d /path/to/demographics.csv -o /path/to/output.csv
 ```
