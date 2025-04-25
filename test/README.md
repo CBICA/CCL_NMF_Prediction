@@ -2,7 +2,7 @@ Description:
 ------------
 Test data to replicate CCL-NMF prediction of brain aging subtypes
 
-!!! Please note that initial MRI images were down-sampled to 2mm^3. Accordingly, segmentation results and final CCL-NMF estimations are provided only for replication of the prediction script!
+:warning: Please note that initial MRI images were down-sampled to 2mm^3. Accordingly, segmentation results and final CCL-NMF estimations are provided only for replication of the prediction script!
 
 Contents:
 ---------
